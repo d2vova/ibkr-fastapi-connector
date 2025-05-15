@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ibgateway:
+    build:
+      context: ./ib_gateway
+    env_file: .env
+    ports:
+      - "4002:4002"
+    restart: always
+    container_name: ibgateway
+    volumes:
+      - ./ib_gateway/config.ini:/opt/ib/ibc/config.ini
+
+  api:
+    build:
+      context: ./api
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ibgateway
+
